@@ -8,9 +8,11 @@ function fmtDate(d) {
 }
 
 export default function Calendar({ events, onAddEvent }) {
-  const [view, setView]           = useState('month')
-  const [offset, setOffset]       = useState(0)
+  const [view, setView]               = useState('month')
+  const [offset, setOffset]           = useState(0)
   const [selectedDay, setSelectedDay] = useState(new Date())
+  const [showModal, setShowModal]     = useState(false)
+  const [eventInput, setEventInput]   = useState('')
   const now = new Date()
 
   function getNavLabel() {
@@ -32,24 +34,21 @@ export default function Calendar({ events, onAddEvent }) {
 
   function getDays() {
     const cells = []
-
     if (view === 'month') {
-      const ref       = new Date(now.getFullYear(), now.getMonth() + offset, 1)
-      const startDay  = ref.getDay()
+      const ref         = new Date(now.getFullYear(), now.getMonth() + offset, 1)
+      const startDay    = ref.getDay()
       const daysInMonth = new Date(ref.getFullYear(), ref.getMonth() + 1, 0).getDate()
-      const prevDays  = new Date(ref.getFullYear(), ref.getMonth(), 0).getDate()
-
+      const prevDays    = new Date(ref.getFullYear(), ref.getMonth(), 0).getDate()
       for (let i = 0; i < startDay; i++) {
         cells.push({ n: prevDays - startDay + i + 1, cls: 'other-month', date: null })
       }
       for (let d = 1; d <= daysInMonth; d++) {
-        const date      = new Date(ref.getFullYear(), ref.getMonth(), d)
-        const isToday   = d === now.getDate() && ref.getMonth() === now.getMonth() && ref.getFullYear() === now.getFullYear()
+        const date       = new Date(ref.getFullYear(), ref.getMonth(), d)
+        const isToday    = d === now.getDate() && ref.getMonth() === now.getMonth() && ref.getFullYear() === now.getFullYear()
         const isSelected = fmtDate(date) === fmtDate(selectedDay)
-        const hasEvent  = !!(events[fmtDate(date)]?.length)
+        const hasEvent   = !!(events[fmtDate(date)]?.length)
         cells.push({ n: d, cls: (isToday ? 'today' : '') + (isSelected && !isToday ? ' selected' : ''), date, hasEvent })
       }
-
     } else if (view === 'week') {
       const s = new Date(now)
       s.setDate(now.getDate() - now.getDay() + offset * 7)
@@ -60,7 +59,6 @@ export default function Calendar({ events, onAddEvent }) {
         const hasEvent   = !!(events[fmtDate(date)]?.length)
         cells.push({ n: date.getDate(), cls: (isToday ? 'today' : '') + (isSelected && !isToday ? ' selected' : ''), date, hasEvent })
       }
-
     } else {
       const base = new Date(now)
       base.setDate(now.getDate() + offset)
@@ -71,13 +69,25 @@ export default function Calendar({ events, onAddEvent }) {
         cells.push({ n: date.getDate(), cls: (isToday ? 'today' : '') + (isSelected && !isToday ? ' selected' : ''), date, hasEvent: false })
       }
     }
-
     return cells
   }
 
   function handleAddEvent() {
-    const label = window.prompt('Event name:')
-    if (label) onAddEvent(fmtDate(selectedDay), label)
+    setEventInput('')
+    setShowModal(true)
+  }
+
+  function submitEvent() {
+    if (eventInput.trim()) {
+      onAddEvent(fmtDate(selectedDay), eventInput.trim())
+    }
+    setShowModal(false)
+    setEventInput('')
+  }
+
+  function cancelEvent() {
+    setShowModal(false)
+    setEventInput('')
   }
 
   const dayEvents = events[fmtDate(selectedDay)] || []
@@ -140,6 +150,33 @@ export default function Calendar({ events, onAddEvent }) {
       </div>
 
       <button className="add-btn" onClick={handleAddEvent}>+ Add event</button>
+
+      {/* Custom modal */}
+      {showModal && (
+        <div className="cal-modal-overlay" onClick={cancelEvent}>
+          <div className="cal-modal" onClick={e => e.stopPropagation()}>
+            <div className="cal-modal-title">New Event</div>
+            <div className="cal-modal-date">
+              {selectedDay.toLocaleDateString('en', { weekday: 'long', month: 'long', day: 'numeric' })}
+            </div>
+            <input
+              className="cal-modal-input"
+              placeholder="Event name…"
+              value={eventInput}
+              autoFocus
+              onChange={e => setEventInput(e.target.value)}
+              onKeyDown={e => {
+                if (e.key === 'Enter') submitEvent()
+                if (e.key === 'Escape') cancelEvent()
+              }}
+            />
+            <div className="cal-modal-actions">
+              <button className="cal-modal-cancel" onClick={cancelEvent}>Cancel</button>
+              <button className="cal-modal-submit" onClick={submitEvent}>Add Event</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

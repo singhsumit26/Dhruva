@@ -192,3 +192,91 @@
   border-color: var(--cal-accent);
   color: var(--cal-accent);
 }
+
+.cal-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.6);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cal-modal {
+  background: linear-gradient(160deg, #0f2027, #203a43);
+  border: 1px solid rgba(82,227,194,.25);
+  border-radius: 20px;
+  padding: 24px;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.5);
+}
+
+.cal-modal-title {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  color: var(--cal-accent);
+}
+
+.cal-modal-date {
+  font-family: var(--font-mono);
+  font-size: .7rem;
+  color: #446;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+.cal-modal-input {
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 10px;
+  padding: 10px 14px;
+  color: #fff;
+  font-family: var(--font-ui);
+  font-size: .85rem;
+  outline: none;
+  transition: border-color .2s;
+  width: 100%;
+}
+
+.cal-modal-input:focus { border-color: var(--cal-accent); }
+.cal-modal-input::placeholder { color: #445; }
+
+.cal-modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.cal-modal-cancel {
+  background: rgba(255,255,255,.07);
+  border: none;
+  border-radius: 10px;
+  color: #778;
+  font-family: var(--font-ui);
+  font-size: .8rem;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: all .2s;
+}
+
+.cal-modal-cancel:hover { background: rgba(255,255,255,.12); color: #aaa; }
+
+.cal-modal-submit {
+  background: var(--cal-accent);
+  border: none;
+  border-radius: 10px;
+  color: #0f2027;
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: .8rem;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: opacity .2s;
+}
+
+.cal-modal-submit:hover { opacity: .85; }
