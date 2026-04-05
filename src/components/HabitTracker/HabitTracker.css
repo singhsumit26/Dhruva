@@ -1,0 +1,211 @@
+.hab-panel {
+  background: linear-gradient(160deg, var(--hab-from), var(--hab-to));
+  box-shadow: 0 8px 40px rgba(247,178,255,.12);
+  border-radius: var(--radius);
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  min-height: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: transform .3s ease;
+}
+
+.hab-panel:hover { transform: translateY(-4px); }
+
+.hab-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius);
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(255,255,255,.18), rgba(255,255,255,.04));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.hab-panel .panel-title {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  color: var(--hab-accent);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.habit-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.no-habits {
+  font-size: .75rem;
+  color: #445;
+  font-family: var(--font-mono);
+  text-align: center;
+  padding: 20px 0;
+}
+
+.habit-item {
+  background: rgba(255,255,255,.05);
+  border-radius: 14px;
+  padding: 12px 14px;
+}
+
+.habit-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  gap: 8px;
+}
+
+.habit-name {
+  font-size: .85rem;
+  font-weight: 600;
+  cursor: pointer;
+  flex: 1;
+  transition: color .2s;
+}
+
+.habit-name:hover { color: var(--hab-accent); }
+
+.habit-name-input {
+  flex: 1;
+  background: rgba(255,255,255,.08);
+  border: 1px solid var(--hab-accent);
+  border-radius: 6px;
+  padding: 2px 8px;
+  color: #fff;
+  font-size: .85rem;
+  font-weight: 600;
+  font-family: var(--font-ui);
+  outline: none;
+  min-width: 0;
+}
+
+.habit-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.streak-badge {
+  font-family: var(--font-mono);
+  font-size: .7rem;
+  background: rgba(247,178,255,.15);
+  color: var(--hab-accent);
+  border-radius: 20px;
+  padding: 2px 10px;
+}
+
+.habit-edit-btn,
+.habit-delete-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: .8rem;
+  padding: 2px 4px;
+  border-radius: 6px;
+  transition: background .2s;
+  line-height: 1;
+}
+
+.habit-edit-btn:hover { background: rgba(255,255,255,.1); }
+.habit-delete-btn {
+  color: #664;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+.habit-delete-btn:hover { background: rgba(255,80,80,.15); color: #f88; }
+
+.habit-dots {
+  display: flex;
+  gap: 5px;
+}
+
+.h-dot {
+  width: 22px; height: 22px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all .2s;
+  border: 1px solid rgba(255,255,255,.1);
+  background: rgba(255,255,255,.04);
+  font-size: .55rem;
+  display: grid; place-items: center;
+  color: #444;
+}
+
+.h-dot.done {
+  background: var(--hab-accent);
+  color: #1a0533;
+  border-color: transparent;
+  font-weight: 700;
+}
+
+.h-dot.today-dot { border-color: var(--hab-accent); }
+
+.add-habit-row {
+  display: flex;
+  gap: 8px;
+}
+
+.hab-input {
+  flex: 1;
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 10px;
+  padding: 8px 12px;
+  color: #fff;
+  font-size: .8rem;
+  outline: none;
+  transition: border-color .2s;
+}
+
+.hab-input:focus { border-color: var(--hab-accent); }
+.hab-input::placeholder { color: #445; }
+
+.hab-add-btn {
+  background: var(--hab-accent);
+  border: none;
+  border-radius: 10px;
+  color: #1a0533;
+  font-weight: 700;
+  font-size: 1.2rem;
+  width: 36px; height: 36px;
+  cursor: pointer;
+  transition: opacity .2s;
+  display: grid; place-items: center;
+}
+
+.hab-add-btn:hover { opacity: .8; }
+
+.hm-label {
+  font-family: var(--font-mono);
+  font-size: .6rem;
+  color: #556;
+  letter-spacing: .06em;
+}
+
+.heatmap-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 3px;
+}
+
+.hm-cell {
+  aspect-ratio: 1;
+  border-radius: 3px;
+  background: rgba(247,178,255,.06);
+  transition: background .2s;
+}
+
+.hm-cell.l1 { background: rgba(247,178,255,.2); }
+.hm-cell.l2 { background: rgba(247,178,255,.5); }
+.hm-cell.l3 { background: rgba(247,178,255,.85); }
